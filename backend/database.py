@@ -3,7 +3,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-# Utilisation de SQLite pour la simplicité
 SQLALCHEMY_DATABASE_URL = "sqlite:///./saas_database.db"
 
 engine = create_engine(

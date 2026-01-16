@@ -8,7 +8,9 @@ import os
 from io import BytesIO
 
 # Configuration
-API_BASE_URL = "http://localhost:8000"
+# Allow overriding the API base URL via environment so the frontend container can
+# call the backend service by its Docker Compose name (e.g. http://backend:8000).
+API_BASE_URL = os.environ.get('API_BASE_URL', 'http://localhost:8000')
 
 # Initialisation de session
 if 'auth' not in st.session_state:

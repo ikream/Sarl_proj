@@ -58,6 +58,92 @@ streamlit run app.py
 docker-compose up --build
 ```
 
+## Run locally (without Docker) — detailed (Windows PowerShell)
+
+If you prefer to run the application locally without Docker (recommended for quick testing or debugging on a developer machine), follow these step-by-step instructions for Windows PowerShell. These commands assume you're running on the same machine that hosts the source tree.
+
+1) Stop any running Docker containers that may occupy ports 8000 or 8501 (optional but recommended):
+
+```powershell
+cd 'c:\Users\FD Tech\Documents\Sarl_projet'
+docker compose down
+```
+
+2) Create and activate a Python virtual environment (recommended):
+
+```powershell
+cd 'c:\Users\FD Tech\Documents\Sarl_projet\backend'
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+3) Install backend dependencies:
+
+```powershell
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+4) Initialize the database (creates tables, sample clients/users and documents):
+
+```powershell
+# Run the DB initializer which creates clients/users and sample documents
+python init_db.py
+```
+
+5) Seed per-user personal files (optional but used by the demo frontend):
+
+```powershell
+python init_personal_files.py
+```
+
+6) Start the backend (FastAPI + Uvicorn) in a dedicated terminal (keep it running):
+
+```powershell
+# From backend folder
+uvicorn app:app --reload --host 127.0.0.1 --port 8000
+```
+
+Notes:
+- If you changed `API_BASE_URL` logic or run the frontend in Docker, set `API_BASE_URL` accordingly (e.g. `http://backend:8000`). For local runs you can leave the default `http://localhost:8000`.
+
+7) In a separate terminal, create/activate a venv for the frontend and install frontend deps, then run Streamlit:
+
+```powershell
+cd 'c:\Users\FD Tech\Documents\Sarl_projet\frontend'
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+# If you run the frontend containerized, set API_BASE_URL to http://backend:8000; for local runs, keep default
+streamlit run app.py --server.address 127.0.0.1 --server.port 8501
+```
+
+8) Open the UI in your browser:
+
+- Streamlit frontend: http://localhost:8501
+- API health: http://localhost:8000/health
+- Swagger UI: http://localhost:8000/docs
+
+Quick manual test (PowerShell):
+
+```powershell
+# Login (returns access_token)
+$body = @{email='admin@client-a.com'; password='password123'} | ConvertTo-Json
+Invoke-RestMethod -Method Post -Uri http://localhost:8000/auth/login -ContentType 'application/json' -Body $body
+
+# Use the token to list personal files
+# Replace <TOKEN> with access_token from previous command
+Invoke-RestMethod -Method Get -Uri http://localhost:8000/my-files/ -Headers @{Authorization = "Bearer <TOKEN>"}
+```
+
+Troubleshooting tips
+- Connection refused when calling the API: make sure the backend uvicorn process is running and listening on 127.0.0.1:8000. Use `netstat -ano | findstr ":8000"` to check port usage and `Stop-Process -Id <PID>` to kill a stuck process.
+- SQLite "database is locked": ensure no other process has a long-running write transaction. Close any running backend instances or Docker containers using the same DB file.
+- Streamlit DuplicateWidgetID: if you see Streamlit errors about widget keys, refresh the page and ensure you're using the latest `frontend/app.py` from this repo (we added unique keys and prefill handling).
+- If frontend can't reach backend when frontend runs in Docker, set the environment variable `API_BASE_URL=http://backend:8000` for the frontend process or container.
+
+If you want, I can add a short PowerShell script (start-local.ps1) to automate these steps (create venvs, install, init DB and start both services). Ask and I'll add it to the repo.
+
 ## Utilisation
 
 ### Accès aux applications
