@@ -1,0 +1,11 @@
+SUIVI DE PROJETS
+
+Projet Alpha :
+• Statut : En cours
+• Deadline : 2024-03-15
+• Livrables : 3/5 complétés
+
+Projet Beta :
+• Statut : Planification
+• Deadline : 2024-06-30
+• Équipe : 4 membres

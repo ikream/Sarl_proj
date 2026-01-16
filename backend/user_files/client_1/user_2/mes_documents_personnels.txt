@@ -1,0 +1,16 @@
+DOCUMENTS DE Utilisateur Client A
+
+Informations personnelles :
+• Poste : Utilisateur standard
+• Date d'embauche : 2023-01-15
+• Manager : Administration
+
+Fichiers importants :
+- Contrat de travail
+- Notes de réunion
+- Suivi de projet
+
+Objectifs trimestriels :
+1. Formation produit
+2. Documentation utilisateur
+3. Tests qualité

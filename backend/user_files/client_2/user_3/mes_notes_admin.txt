@@ -1,0 +1,14 @@
+MES NOTES - Admin Client B
+                
+Rapports à générer chaque mois :
+1. Rapport d'activité clients
+2. Suivi des paiements
+3. Audit sécurité
+
+Contacts importants :
+- Support technique : tech@info@client-b.com
+- Comptabilité : accounting@info@client-b.com
+
+Projets en cours :
+• Migration base de données
+• Mise à jour sécurité

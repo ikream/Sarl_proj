@@ -1,0 +1,11 @@
+PROCÉDURES INTERNES
+
+Création de compte utilisateur :
+1. Vérifier l'email dans le CRM
+2. Générer un mot de passe temporaire
+3. Envoyer les instructions de connexion
+
+Gestion des incidents :
+• Niveau 1 : Support utilisateur
+• Niveau 2 : Administration système
+• Niveau 3 : Développeur
