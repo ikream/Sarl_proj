@@ -92,18 +92,30 @@ class FileStorageManager:
     def delete_user_file(self, client_id: int, user_id: int, file_path: str) -> bool:
         """Supprimer un fichier utilisateur"""
         full_path = Path(file_path)
-        
-        # Vérifier les permissions
+        # If the file does not exist, return a 404 so the caller can handle it
+        if not full_path.exists():
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Fichier physique non trouvé"
+            )
+
+        # Vérifier les permissions (après avoir confirmé l'existence)
         if not self._check_user_file_access(client_id, user_id, full_path):
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="Accès non autorisé à ce fichier"
             )
-        
-        if full_path.exists():
+
+        # Supprimer le fichier
+        try:
             full_path.unlink()
             return True
-        return False
+        except Exception as e:
+            # Renvoyer une erreur claire au caller
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Impossible de supprimer le fichier: {e}"
+            )
     
     def list_user_files(self, client_id: int, user_id: int) -> List[Dict[str, Any]]:
         """Lister tous les fichiers d'un utilisateur"""

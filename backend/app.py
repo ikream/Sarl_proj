@@ -584,6 +584,9 @@ def delete_my_file(
             current_user.id,
             file_meta.file_path
         )
+    except HTTPException as he:
+        # Propager les HTTPExceptions (404, 403...) telles quelles pour conserver le code et le détail
+        raise he
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

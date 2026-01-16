@@ -1,0 +1,11 @@
+{
+  "user_id": 3,
+  "ingested_file_ids": [
+    34,
+    35,
+    14,
+    15
+  ],
+  "created_at": "2026-01-16T12:03:01.002348",
+  "documents_count": 4
+}
